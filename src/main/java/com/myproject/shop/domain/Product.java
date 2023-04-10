@@ -3,7 +3,6 @@ package com.myproject.shop.domain;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Objects;
