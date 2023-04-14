@@ -4,10 +4,13 @@ import com.myproject.shop.domain.Customer;
 import com.myproject.shop.domain.Merchant;
 import com.myproject.shop.domain.Product;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,37 +18,60 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 
-
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 public class DBInsertTests {
 
-    private final String insertCustomer =
-            "INSERT INTO customer(name, surname, email, address, age, phone_number) value (?, ?, ?, ?, ?, ?)";
-    private final String insertMerchant = "INSERT INTO merchant(name, email, address) value (?, ?, ?)";
-
-    private final String insertProduct =
-            "INSERT INTO product(merchant_id, name, description, price, created_at, available) value (?, ?, ?, ?, ?, ?)";
+    private final String insertCustomer = "INSERT INTO customer(name, surname, email, address, age, phone_number) values (?, ?, ?, ?, ?, ?)";
+    private final String insertMerchant = "INSERT INTO merchant(name, email, address) values (?, ?, ?)";
+    private final String insertProduct = "INSERT INTO product(merchant_id, name, description, price, created_at, available) values (?, ?, ?, ?, ?, ?)";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Test
+    public void createProduct() {
+        Product product = new Product();
+        product.setMerchantId(1);
+        product.setName("Klavesnica");
+        product.setDescription("Velmi dobra klavesnica");
+        product.setPrice(15.5);
+        product.setCreatedAt(Timestamp.from(Instant.now()));
+        product.setAvailable(10);
+
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement ps = con.prepareStatement(insertProduct);
+                ps.setInt(1, product.getMerchantId());
+                ps.setString(2, product.getName());
+                ps.setString(3, product.getDescription());
+                ps.setDouble(4, product.getPrice());
+                ps.setTimestamp(5, product.getCreatedAt());
+                ps.setInt(6, product.getAvailable());
+                return ps;
+            }
+        });
+
+    }
+
+    @Test
     public void createCustomer() {
         Customer customer = new Customer();
-        customer.setName("Fero");
+        customer.setName("Ferko");
         customer.setSurname("Mrkvicka");
-        customer.setEmail("wer");
-        customer.setAddress("asdf");
-        customer.setAge(17);
-        customer.setPhoneNumber("12354");
-
+        customer.setEmail("xxx");
+        customer.setAddress("xxx");
+        customer.setAge(18);
+        customer.setPhoneNumber("xxx");
 
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 PreparedStatement ps = con.prepareStatement(insertCustomer);
-                 ps.setString(1, customer.getName());
-                 ps.setString(2, customer.getSurname());
+                ps.setString(1, customer.getName());
+                ps.setString(2, customer.getSurname());
                 ps.setString(3, customer.getEmail());
                 ps.setString(4, customer.getAddress());
                 ps.setInt(5, customer.getAge());
@@ -54,39 +80,13 @@ public class DBInsertTests {
             }
         });
     }
-    @Test
-    public void createProduct(){
-        Product product = new Product();
-        product.setMerchantId(1);
-        product.setName("wine");
-        product.setDescription("red dry");
-        product.setPrice(4.5);
-        product.setCreatedAt(Timestamp.from(Instant.now()));
-        product.setAvailable(14);
-
-        jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                PreparedStatement ps = con.prepareStatement(insertProduct);
-                ps.setInt(1, product.getMerchantId());
-                ps.setString(2,product.getName());
-                ps.setString(3, product.getDescription());
-                ps.setDouble(4, product.getPrice());
-                ps.setTimestamp(5, product.getCreatedAt());
-                ps.setInt(6, product.getAvailable());
-
-                return ps;
-            }
-        });
-    }
-
 
     @Test
-    public void createMerchant(){
+    public void createMerchant() {
         Merchant merchant = new Merchant();
-        merchant.setName("merchant2");
-        merchant.setEmail("email2");
-        merchant.setAddress("address2");
+        merchant.setName("merchant");
+        merchant.setEmail("email@email.learn2code.sk");
+        merchant.setAddress("address3");
 
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
