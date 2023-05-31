@@ -62,4 +62,7 @@ public class Merchant {
     public int hashCode() {
         return Objects.hash(id, name, email, address);
     }
+
+    public void setId(int id) {
+    }
 }
