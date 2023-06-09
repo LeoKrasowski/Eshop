@@ -65,4 +65,6 @@ public class Merchant {
 
     public void setId(int id) {
     }
+    public void get(int id) {
+    }
 }

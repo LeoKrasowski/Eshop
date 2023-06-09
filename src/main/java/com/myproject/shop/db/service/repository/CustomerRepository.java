@@ -21,6 +21,7 @@ public class CustomerRepository {
     private final CustomerRowMapper customerRowMapper = new CustomerRowMapper();
 
     public CustomerRepository(JdbcTemplate jdbcTemplate) {
+
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -47,7 +48,7 @@ public class CustomerRepository {
                 ps.setString(3, customer.getEmail());
                 ps.setString(4, customer.getAddress());
                 if (customer.getAge() != null){
-                ps.setInt(5, customer.getAge());
+                    ps.setInt(5, customer.getAge());
                 } else {
                     ps.setNull(5, Types.INTEGER);
                 }
@@ -59,7 +60,6 @@ public class CustomerRepository {
 
         if (keyHolder.getKey() != null) {
             return keyHolder.getKey().intValue();
-
         } else {
             return null;
         }
