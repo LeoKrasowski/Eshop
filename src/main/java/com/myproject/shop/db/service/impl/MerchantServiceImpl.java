@@ -3,9 +3,11 @@ package com.myproject.shop.db.service.impl;
 import com.myproject.shop.db.service.API.MerchantService;
 import com.myproject.shop.db.service.repository.MerchantRepository;
 import com.myproject.shop.domain.Merchant;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MerchantServiceImpl implements MerchantService {
     private final MerchantRepository merchantRepository;
 
