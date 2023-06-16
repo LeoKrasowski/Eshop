@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void update(int id, UpdateProductRequest request) {
-
+        productRepository.update(id, request);
     }
 
 }

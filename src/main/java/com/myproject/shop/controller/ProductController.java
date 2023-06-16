@@ -44,7 +44,7 @@ public class ProductController {
 
     @PatchMapping("{id}")
     public ResponseEntity updateProduct(@PathVariable("id") int id, @RequestBody UpdateProductRequest request){
-        if(productService.get(id) != null){
+        if (productService.get(id) != null){
             productService.update(id, request);
             return ResponseEntity.ok().build();
         } else {
@@ -54,7 +54,7 @@ public class ProductController {
         }
     }
 
-    @DeleteMapping({"id"})
+    @DeleteMapping("{id}")
     public ResponseEntity deleteProduct(@PathVariable("id") int id){
         if (productService.get(id) != null){
             productService.delete(id);

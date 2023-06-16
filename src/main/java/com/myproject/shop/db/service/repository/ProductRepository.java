@@ -72,8 +72,8 @@ public class ProductRepository {
     }
 
     public void update(int id, UpdateProductRequest request){
-        final String sql = "update product srt name = ?, description = ?, price = ?, available = ? where id = ?";
-        jdbcTemplate.update(sql, request.getName(), request.getDescription(), request.getPrice(), request.getAvailable());
+        final String sql = "update product set name = ?, description = ?, price = ?, available = ? where id = ?";
+        jdbcTemplate.update(sql, request.getName(), request.getDescription(), request.getPrice(), request.getAvailable(), id);
     }
 
     public void delete (int id){
