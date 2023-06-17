@@ -1,9 +1,10 @@
 package com.myproject.shop.controller;
 
+import com.myproject.shop.db.service.API.CustomerAccountService;
 import com.myproject.shop.db.service.API.CustomerService;
 import com.myproject.shop.domain.Customer;
+import com.myproject.shop.domain.CustomerAccount;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +15,11 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final CustomerAccountService customerAccountService;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, CustomerAccountService customerAccountService) {
         this.customerService = customerService;
+        this.customerAccountService = customerAccountService;
     }
 
     @PostMapping
@@ -44,4 +47,11 @@ public class CustomerController {
         return new ResponseEntity<>(customerList, HttpStatus.OK);
 
     }
+
+    @PostMapping("/account")
+    public ResponseEntity addAccount(@RequestBody CustomerAccount customerAccount){
+        customerAccountService.addCustomerAccount(customerAccount);
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
+    }
+
 }
