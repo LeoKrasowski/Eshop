@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
+
     private final ProductRepository productRepository;
 
     public ProductServiceImpl(ProductRepository productRepository) {
@@ -40,6 +41,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void update(int id, UpdateProductRequest request) {
         productRepository.update(id, request);
+    }
+
+    @Override
+    public void updateAvailableInternal(int id, int newAvailable) {
+        productRepository.updateAvailable(id, newAvailable);
     }
 
 }
